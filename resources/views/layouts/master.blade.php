@@ -92,18 +92,19 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
+                <router-link to="/users" class="nav-link">
+                  <i class="fas fa-users nav-icon"></i>
                   <p>Users</p>
-                </a>
+                </router-link>
               </li>
-
+            <!--
               <li class="nav-item">
                 <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
+                  <i class="fas fa-newspaper nav-icon"></i>
                   <p>Posts</p>
                 </a>
               </li>
+            !-->
 
             </ul>
           </li>
@@ -145,17 +146,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <footer class="main-footer">
     <!-- To the right -->
     <div class="float-right d-none d-sm-inline">
-      Anything you want
+      hramchi.hamza@gmail.com
     </div>
     <!-- Default to the left -->
-    <strong>Copyright &copy; 2014-2019 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
+    <strong>Copyright @DOROSSAT</strong> All rights reserved.
   </footer>
 </div>
 <!-- ./wrapper -->
 
 <!-- REQUIRED SCRIPTS -->
-
-<!-- jQuery -->
 <script src="/js/app.js"></script>
+
 </body>
 </html>

@@ -17,7 +17,10 @@ let routes = [
 
 
 const router = new VueRouter({
-    routes // raccourci pour `routes: routes`
+  mode : 'history',
+  linkActiveClass: 'active',
+  routes // raccourci pour `routes: routes`
+
   })
 
 

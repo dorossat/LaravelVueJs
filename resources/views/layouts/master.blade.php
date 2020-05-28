@@ -16,7 +16,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="/css/app.css">
 </head>
 <body class="hold-transition sidebar-mini">
-<div class="wrapper">
+<div class="wrapper" id="app">
 
   <!-- Navbar -->
   <nav class="main-header navbar navbar-expand navbar-white navbar-light">
@@ -69,10 +69,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
                with font-awesome or any other icon font library -->
           
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <router-link to="/dashboard" class="nav-link">
               <i class="nav-icon fas fa-cogs"></i>
               <p> Dashboard </p>
-            </a>
+            </router-link>
+          </li>
+
+          <li class="nav-item">
+            <router-link to="/profile" class="nav-link">
+              <i class="nav-icon fas fa-user"></i>
+              <p> Profile </p>
+            </router-link>
           </li>
 
           <li class="nav-item has-treeview">
@@ -101,15 +108,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </ul>
           </li>
 
-          
-
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-user"></i>
-              <p> Profile </p>
-            </a>
-          </li>
-
           <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-power-off"></i>
@@ -125,6 +123,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
+
+    <router-view></router-view> <!-- Display component -->
+
     <!-- Main content -->
     <div class="content">
       <div class="container-fluid">

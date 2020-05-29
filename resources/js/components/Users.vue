@@ -25,6 +25,7 @@
                                     <th scope="col">Name</th>
                                     <th scope="col">Email</th>
                                     <th scope="col">Role</th>
+                                    <th scope="col">Created at</th>
                                     <th scope="col">Action</th>
                                 </tr>
                             </thead>
@@ -34,7 +35,8 @@
                                     <th scope="row">{{ user.id}}</th>
                                     <td>{{ user.name }}</td>
                                     <td>{{ user.email}}</td>
-                                    <td>{{ user.role }}</td>
+                                    <td>{{ user.role | upText }}</td> <!-- upText is a filter created in app.js -->
+                                    <td>{{ user.created_at | myDate }}</td>
                                     <td>
                                         <a href="#">Edit
                                             <i class="fa fa-edit"></i>
@@ -132,11 +134,9 @@
             },
 
             addUser(){
-                this.form.post('api/user')
-                    .then(({data}) => {
-                        console.log(data);
-                        
-                    })
+                this.$Progress.start();
+                this.form.post('api/user');
+                this.$Progress.finish();
             }
         },
         created() {

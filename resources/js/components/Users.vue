@@ -4,7 +4,7 @@
             <div class="col-md-12 mt-5">
                 <div class="card">
                     
-                    <div class="card-header text-primary">
+                    <div class="card-header text-info text-bold">
                         <i class="nav-icon fas fa-user"></i>
                         Users Component
 
@@ -41,7 +41,7 @@
                                         <a href="#" @click="UpdateUser(user)">Edit
                                             <i class="fa fa-edit"></i>
                                         </a>
-                                        <a href="#" @click="deleteUser(user.id)"> / Delete
+                                        <a style="color:red;" href="#" @click="deleteUser(user.id)"> / Delete
                                             <i class="fa fa-trash-alt"></i>
                                         </a>
                                     </td>
@@ -65,7 +65,7 @@
                 </button>
             </div>
 
-        <form @submit.prevent="editModal ? UpdateUser() : UserModal()">
+        <form @submit.prevent="editModal ? UserModalUpdate() : UserModalAdd()">
             <div class="modal-body">
 
                 <form>
@@ -123,6 +123,7 @@
                 editModal : false,
                 users : {}, 
                 form : new Form({
+                    id : '',
                     name     : '' ,
                     email    : '' ,
                     role : '' ,
@@ -133,11 +134,13 @@
 
         methods : {
 
+            // Display users
             loadUser() {
                 axios.get("api/user").then (( {data} ) => (this.users = data));
             },
 
-            UserModal() {
+            // Add new user
+            UserModalAdd() {
                 
                 this.form.post('api/user')
                     .then(
@@ -153,12 +156,37 @@
                     )
                     .catch(
                         () => {
-
+                            this.$Progress.start();
+                            this.$Progress.fail();
                         }
                     );
                 
             },
 
+            // Update user
+            UserModalUpdate(){
+                this.$Progress.start();
+                this.form.put('api/user/'+ this.form.id)
+                    .then(
+                        () => {
+                            this.$Progress.start();
+                            $("#UserModal").modal('hide');
+                            Toast.fire({
+                            icon: 'success',
+                            title: 'User updated successfully'
+                            })
+                            this.$Progress.finish();
+                        }
+                    )
+                    .catch(
+                        () => {
+                            this.$Progress.start();
+                            this.$Progress.fail();
+                        }
+                    );
+
+            },
+            // Delete User
             deleteUser(id) {
                 Swal.fire({
                     title: 'Are you sure?',
@@ -186,6 +214,7 @@
                     })
             },
 
+            // Display Modal to add user
             AddUser() {
                 this.editModal = false;
                 this.form.reset();
@@ -194,16 +223,18 @@
 
             },
 
+            // Display Modal to update user
             UpdateUser(user) {
                 this.editModal = true;
                 this.form.fill(user);
+                this.form.clear(); // clear errors
                 $("#UserModal").modal("show")
             }
         },
 
         created() {
             this.loadUser();
-            setInterval(() => this.loadUser(), 4000);
+            setInterval(() => this.loadUser(), 3000);
         }
     }
 </script>

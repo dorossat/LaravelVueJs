@@ -27,15 +27,9 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
-        $this->validate($request, [
-            'name'     => 'required|string|max:20',
-            'email'    => 'required|string|email|max:255|unique:users',
-            'role'     => 'required',
-            'password' => 'required|string|min:8'
-        ]);
-        
+       
         return User::create([
             'name'     => $request['name'],
             'email'    => $request['email'],
@@ -64,7 +58,17 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $user = User::findOrFail($id);
+
+        $this->validate($request, [
+            'name'     => 'required|string|max:20',
+            'email'    =>  'required|unique:users,email,'.$user->id,
+            'role'     => 'required',
+            'password' => 'sometimes|string|min:8'
+        ]);
+        
+
+        $user->update($request->all());
     }
 
     /**

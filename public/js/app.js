@@ -2148,6 +2148,7 @@ __webpack_require__.r(__webpack_exports__);
       editModal: false,
       users: {},
       form: new Form({
+        id: '',
         name: '',
         email: '',
         role: '',
@@ -2156,6 +2157,7 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
+    // Display users
     loadUser: function loadUser() {
       var _this = this;
 
@@ -2164,7 +2166,8 @@ __webpack_require__.r(__webpack_exports__);
         return _this.users = data;
       });
     },
-    UserModal: function UserModal() {
+    // Add new user
+    UserModalAdd: function UserModalAdd() {
       var _this2 = this;
 
       this.form.post('api/user').then(function () {
@@ -2177,10 +2180,36 @@ __webpack_require__.r(__webpack_exports__);
         });
 
         _this2.$Progress.finish();
-      })["catch"](function () {});
+      })["catch"](function () {
+        _this2.$Progress.start();
+
+        _this2.$Progress.fail();
+      });
     },
-    deleteUser: function deleteUser(id) {
+    // Update user
+    UserModalUpdate: function UserModalUpdate() {
       var _this3 = this;
+
+      this.$Progress.start();
+      this.form.put('api/user/' + this.form.id).then(function () {
+        _this3.$Progress.start();
+
+        $("#UserModal").modal('hide');
+        Toast.fire({
+          icon: 'success',
+          title: 'User updated successfully'
+        });
+
+        _this3.$Progress.finish();
+      })["catch"](function () {
+        _this3.$Progress.start();
+
+        _this3.$Progress.fail();
+      });
+    },
+    // Delete User
+    deleteUser: function deleteUser(id) {
+      var _this4 = this;
 
       Swal.fire({
         title: 'Are you sure?',
@@ -2193,7 +2222,7 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (result) {
         // Send request to the server
         if (result.value) {
-          _this3.form["delete"]('api/user/' + id).then(function () {
+          _this4.form["delete"]('api/user/' + id).then(function () {
             Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
           })["catch"](function () {
             Swal('Failed', 'Something was wrong !', 'warning');
@@ -2201,25 +2230,29 @@ __webpack_require__.r(__webpack_exports__);
         }
       });
     },
+    // Display Modal to add user
     AddUser: function AddUser() {
       this.editModal = false;
       this.form.reset();
       this.form.clear();
       $("#UserModal").modal("show");
     },
+    // Display Modal to update user
     UpdateUser: function UpdateUser(user) {
       this.editModal = true;
       this.form.fill(user);
+      this.form.clear(); // clear errors
+
       $("#UserModal").modal("show");
     }
   },
   created: function created() {
-    var _this4 = this;
+    var _this5 = this;
 
     this.loadUser();
     setInterval(function () {
-      return _this4.loadUser();
-    }, 4000);
+      return _this5.loadUser();
+    }, 3000);
   }
 });
 
@@ -63115,7 +63148,7 @@ var render = function() {
     _c("div", { staticClass: "row justify-content-center" }, [
       _c("div", { staticClass: "col-md-12 mt-5" }, [
         _c("div", { staticClass: "card" }, [
-          _c("div", { staticClass: "card-header text-primary" }, [
+          _c("div", { staticClass: "card-header text-info text-bold" }, [
             _c("i", { staticClass: "nav-icon fas fa-user" }),
             _vm._v(
               "\n                        Users Component\n\n                        "
@@ -63176,6 +63209,7 @@ var render = function() {
                       _c(
                         "a",
                         {
+                          staticStyle: { color: "red" },
                           attrs: { href: "#" },
                           on: {
                             click: function($event) {
@@ -63263,7 +63297,7 @@ var render = function() {
                   on: {
                     submit: function($event) {
                       $event.preventDefault()
-                      _vm.editModal ? _vm.UpdateUser() : _vm.UserModal()
+                      _vm.editModal ? _vm.UserModalUpdate() : _vm.UserModalAdd()
                     }
                   }
                 },
@@ -78791,7 +78825,7 @@ Vue.use(vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]);
 Vue.use(vue_progressbar__WEBPACK_IMPORTED_MODULE_3___default.a, {
   color: 'rgb(143, 255, 199)',
   failedColor: 'red',
-  height: '3px'
+  height: '5px'
 }); // Global component and methods
 
 Vue.component(vform__WEBPACK_IMPORTED_MODULE_0__["HasError"].name, vform__WEBPACK_IMPORTED_MODULE_0__["HasError"]);

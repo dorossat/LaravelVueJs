@@ -2162,22 +2162,26 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     addUser: function addUser() {
+      var _this2 = this;
+
       this.$Progress.start();
-      this.form.post('api/user');
-      $("#addUser").modal('hide');
-      Toast.fire({
-        icon: 'success',
-        title: 'User created successfully'
-      });
-      this.$Progress.finish();
+      this.form.post('api/user').then(function () {
+        $("#addUser").modal('hide');
+        Toast.fire({
+          icon: 'success',
+          title: 'User created successfully'
+        });
+
+        _this2.$Progress.finish();
+      })["catch"](function () {});
     }
   },
   created: function created() {
-    var _this2 = this;
+    var _this3 = this;
 
     this.loadUser();
     setInterval(function () {
-      return _this2.loadUser();
+      return _this3.loadUser();
     }, 4000);
   }
 });
@@ -78682,6 +78686,7 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 window.Swal = sweetalert2__WEBPACK_IMPORTED_MODULE_4___default.a;
+window.Form = vform__WEBPACK_IMPORTED_MODULE_0__["Form"];
 Vue.use(vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]);
 Vue.use(vue_progressbar__WEBPACK_IMPORTED_MODULE_3___default.a, {
   color: 'rgb(143, 255, 199)',
@@ -78690,8 +78695,7 @@ Vue.use(vue_progressbar__WEBPACK_IMPORTED_MODULE_3___default.a, {
 }); // Global component and methods
 
 Vue.component(vform__WEBPACK_IMPORTED_MODULE_0__["HasError"].name, vform__WEBPACK_IMPORTED_MODULE_0__["HasError"]);
-Vue.component(vform__WEBPACK_IMPORTED_MODULE_0__["AlertError"].name, vform__WEBPACK_IMPORTED_MODULE_0__["AlertError"]);
-window.Form = vform__WEBPACK_IMPORTED_MODULE_0__["Form"]; // Filters
+Vue.component(vform__WEBPACK_IMPORTED_MODULE_0__["AlertError"].name, vform__WEBPACK_IMPORTED_MODULE_0__["AlertError"]); // Filters
 
 Vue.filter('upText', function (text) {
   // the name of the filter is : upText

@@ -10,6 +10,7 @@ import Swal from 'sweetalert2'
 
 window.Vue = require('vue');
 window.Swal = Swal;
+window.Form = Form;
 
 
 Vue.use(VueRouter);
@@ -23,7 +24,8 @@ Vue.use(VueProgressBar, {
 // Global component and methods
 Vue.component(HasError.name, HasError)
 Vue.component(AlertError.name, AlertError)
-window.Form = Form
+
+
 
 
 // Filters

@@ -146,6 +146,7 @@
         },
         created() {
             this.loadUser();
+            setInterval(() => this.loadUser(), 4000);
         }
     }
 </script>

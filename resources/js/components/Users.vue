@@ -41,7 +41,7 @@
                                         <a href="#">Edit
                                             <i class="fa fa-edit"></i>
                                         </a>
-                                        <a href="#"> / Delete
+                                        <a href="#" @click="deleteUser(user.id)"> / Delete
                                             <i class="fa fa-trash-alt"></i>
                                         </a>
                                     </td>
@@ -129,11 +129,11 @@
         },
         methods : {
 
-            loadUser(){
+            loadUser() {
                 axios.get("api/user").then (( {data} ) => (this.users = data));
             },
 
-            addUser(){
+            addUser() {
                 this.$Progress.start();
                 this.form.post('api/user')
                     .then(
@@ -152,8 +152,35 @@
                         }
                     );
                 
+            },
+            deleteUser(id) {
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                    }).then((result) => {
+                        // Send request to the server
+                    if(result.value){
+                            this.form.delete('api/user/'+id)
+                        .then( () => {
+                            Swal.fire(
+                                'Deleted!',
+                                'Your file has been deleted.',
+                                'success'
+                            )
+                        })
+                        .catch( () => {
+                                Swal('Failed', 'Something was wrong !', 'warning')
+                        })
+                    }
+                    })
             }
         },
+
         created() {
             this.loadUser();
             setInterval(() => this.loadUser(), 4000);

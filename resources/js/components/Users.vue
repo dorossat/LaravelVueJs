@@ -64,8 +64,8 @@
         </div>
 
         <!-- Modal -->
-        <div class="modal fade" id="addUser" tabindex="-1" role="dialog" aria-labelledby="addUserLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+<div class="modal fade" id="addUser" tabindex="-1" role="dialog" aria-labelledby="addUserLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
             <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="addUserLabel">Add new user</h5>
@@ -73,24 +73,79 @@
                 <span aria-hidden="true">&times;</span>
                 </button>
             </div>
+
+        <form @submit.prevent="addUser">
             <div class="modal-body">
-                Add user here !
+
+                <form>
+                    <div class="form-group">
+                        <input v-model="form.name" type="text" name="name" placeholder="Enter name"
+                            class="form-control" :class="{ 'is-invalid': form.errors.has('name') }">
+                        <has-error :form="form" field="name"></has-error>
+                    </div>
+
+                    <div class="form-group">
+                        <input v-model="form.email" type="text" name="email" placeholder="Enter email"
+                            class="form-control" :class="{ 'is-invalid': form.errors.has('email') }">
+                        <has-error :form="form" field="email"></has-error>
+                    </div>
+
+                    <div class="form-group">
+                        <select v-model="form.role"
+                            class="form-control" :class="{ 'is-invalid': form.errors.has('role') }">
+                            <option value="">Select user role</option>
+                            <option value="user" class="text-bold">User</option>
+                            <option value="admin" class="text-bold">Admin</option>
+                            </select>
+                        <has-error :form="form" field="role"></has-error>
+                    </div>
+
+                    <div class="form-group">
+                        <input v-model="form.password" type="password" name="password" placeholder="Enter password"
+                            class="form-control" :class="{ 'is-invalid': form.errors.has('password') }">
+                        <has-error :form="form" field="password"></has-error>
+                    </div>
+                </form>
+
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-success">Add user</button>
+                <button type="submit" class="btn btn-success">Add user</button>
             </div>
+        </form>
+
             </div>
         </div>
-        </div>
-
-
-
     </div>
+
+
+
+</div>
 </template>
 
 <script>
     export default {
+        data() {
+            return {
+                form : new Form({
+                    name     : '' ,
+                    email    : '' ,
+                    role : '' ,
+                    password : ''
+                })
+            }
+        },
+        methods : {
+
+            addUser(){
+                this.form.post('api/user')
+                    .then(({data}) => {
+                        console.log(data);
+                        
+                    })
+            }
+        },
         mounted() {
             console.log('Component mounted.')
         }

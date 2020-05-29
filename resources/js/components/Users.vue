@@ -9,7 +9,7 @@
                         Users Component
 
                         <div class="card-tools">
-                            <button class="btn btn-success" data-toggle="modal" data-target="#addUser">Add user
+                            <button class="btn btn-success" @click="AddUser">Add user
                                 <i class="fas fa-user-plus"></i>
                             </button>
                         </div>
@@ -38,7 +38,7 @@
                                     <td>{{ user.role | upText }}</td> <!-- upText is a filter created in app.js -->
                                     <td>{{ user.created_at | myDate }}</td>
                                     <td>
-                                        <a href="#">Edit
+                                        <a href="#" @click="UpdateUser(user)">Edit
                                             <i class="fa fa-edit"></i>
                                         </a>
                                         <a href="#" @click="deleteUser(user.id)"> / Delete
@@ -54,17 +54,18 @@
         </div>
 
         <!-- Modal -->
-<div class="modal fade" id="addUser" tabindex="-1" role="dialog" aria-labelledby="addUserLabel" aria-hidden="true">
+<div class="modal fade" id="UserModal" tabindex="-1" role="dialog" aria-labelledby="UserModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
             <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="addUserLabel">Add new user</h5>
+                <h5 v-show="!editModal" class="modal-title" id="UserModalLabel">Add new user</h5>
+                <h5 v-show="editModal" class="modal-title" id="UserModalLabel">Update user</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
                 </button>
             </div>
 
-        <form @submit.prevent="addUser">
+        <form @submit.prevent="editModal ? UpdateUser() : UserModal()">
             <div class="modal-body">
 
                 <form>
@@ -101,7 +102,8 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-success">Add user</button>
+                <button v-show="!editModal" type="submit" class="btn btn-success">Add user</button>
+                <button v-show="editModal" type="submit" class="btn btn-info">Update user</button>
             </div>
         </form>
 
@@ -118,6 +120,7 @@
     export default {
         data() {
             return {
+                editModal : false,
                 users : {}, 
                 form : new Form({
                     name     : '' ,
@@ -127,18 +130,20 @@
                 })
             }
         },
+
         methods : {
 
             loadUser() {
                 axios.get("api/user").then (( {data} ) => (this.users = data));
             },
 
-            addUser() {
-                this.$Progress.start();
+            UserModal() {
+                
                 this.form.post('api/user')
                     .then(
                         () => {
-                            $("#addUser").modal('hide');
+                            this.$Progress.start();
+                            $("#UserModal").modal('hide');
                             Toast.fire({
                             icon: 'success',
                             title: 'User created successfully'
@@ -153,6 +158,7 @@
                     );
                 
             },
+
             deleteUser(id) {
                 Swal.fire({
                     title: 'Are you sure?',
@@ -178,6 +184,20 @@
                         })
                     }
                     })
+            },
+
+            AddUser() {
+                this.editModal = false;
+                this.form.reset();
+                this.form.clear();
+                $("#UserModal").modal("show");
+
+            },
+
+            UpdateUser(user) {
+                this.editModal = true;
+                this.form.fill(user);
+                $("#UserModal").modal("show")
             }
         },
 

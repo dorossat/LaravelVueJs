@@ -76,6 +76,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
           </li>
 
           <li class="nav-item">
+            <router-link to="/developpers" class="nav-link">
+              <i class="nav-icon fa fa-user-tie"></i>
+              <p> Developpers </p>
+            </router-link>
+          </li>
+
+          <li class="nav-item">
             <router-link to="/profile" class="nav-link">
               <i class="nav-icon fas fa-user"></i>
               <p> Profile </p>

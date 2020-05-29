@@ -2167,7 +2167,7 @@ __webpack_require__.r(__webpack_exports__);
       $("#addUser").modal('hide');
       Toast.fire({
         icon: 'success',
-        title: 'Signed in successfully'
+        title: 'User created successfully'
       });
       this.$Progress.finish();
     }

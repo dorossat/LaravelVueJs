@@ -139,7 +139,7 @@
                 $("#addUser").modal('hide');
                 Toast.fire({
                     icon: 'success',
-                    title: 'Signed in successfully'
+                    title: 'User created successfully'
                     })
                 this.$Progress.finish();
             }

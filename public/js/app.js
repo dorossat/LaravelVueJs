@@ -2140,7 +2140,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2164,13 +2163,26 @@ __webpack_require__.r(__webpack_exports__);
         //this.form.password = CryptoJS.AES.decrypt(txt, CryptoJS.enc.Utf8.parse(this.form.password));
         _this.form.fill(data);
       });
+    },
+    updatePhoto: function updatePhoto(event) {
+      var _this2 = this;
+
+      var file = event.target.files[0];
+      var reader = new FileReader();
+
+      reader.onloadend = function (file) {
+        _this2.form.photo = reader.result;
+        console.log(_this2.form.photo);
+      };
+
+      reader.readAsDataURL(file);
     }
   },
   mounted: function mounted() {
     console.log('Component mounted.');
   },
   created: function created() {
-    this.getData(); //setInterval(() => this.getData(), 3000);
+    this.getData();
   }
 });
 
@@ -64883,10 +64895,6 @@ var render = function() {
             _c("div", { staticClass: "widget-user-header bg-info" }, [
               _c("h3", { staticClass: "widget-user-username" }, [
                 _vm._v(_vm._s(this.form.name))
-              ]),
-              _vm._v(" "),
-              _c("h5", { staticClass: "widget-user-desc" }, [
-                _vm._v(_vm._s(this.form.role))
               ])
             ]),
             _vm._v(" "),
@@ -64921,11 +64929,11 @@ var render = function() {
                 _c("div", { staticClass: "col-sm-4" }, [
                   _c("div", { staticClass: "description-block" }, [
                     _c("h5", { staticClass: "description-header" }, [
-                      _vm._v("Password")
+                      _vm._v("Role")
                     ]),
                     _vm._v(" "),
                     _c("span", { staticClass: "description-text" }, [
-                      _vm._v(_vm._s(this.form.password))
+                      _vm._v(_vm._s(this.form.role))
                     ])
                   ])
                 ])
@@ -65059,7 +65067,24 @@ var render = function() {
                           )
                         ]),
                         _vm._v(" "),
-                        _vm._m(3),
+                        _c("div", { staticClass: "form-group" }, [
+                          _c(
+                            "label",
+                            {
+                              staticClass: "col-sm-2 control-label",
+                              attrs: { for: "photo" }
+                            },
+                            [_vm._v("Profile Photo")]
+                          ),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "col-sm-12" }, [
+                            _c("input", {
+                              staticClass: "form-input",
+                              attrs: { type: "file", name: "photo" },
+                              on: { change: _vm.updatePhoto }
+                            })
+                          ])
+                        ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "form-group" }, [
                           _c(
@@ -65116,7 +65141,7 @@ var render = function() {
                           )
                         ]),
                         _vm._v(" "),
-                        _vm._m(4)
+                        _vm._m(3)
                       ])
                     ]
                   )
@@ -65181,25 +65206,6 @@ var staticRenderFns = [
     return _c("div", { staticClass: "tab-pane", attrs: { id: "activity" } }, [
       _c("h3", { staticClass: "text-center" }, [
         _vm._v("Display User Activity")
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group" }, [
-      _c(
-        "label",
-        { staticClass: "col-sm-2 control-label", attrs: { for: "photo" } },
-        [_vm._v("Profile Photo")]
-      ),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-sm-12" }, [
-        _c("input", {
-          staticClass: "form-input",
-          attrs: { type: "file", name: "photo" }
-        })
       ])
     ])
   },

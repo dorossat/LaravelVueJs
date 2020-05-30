@@ -8,7 +8,6 @@
               <!-- Add the bg color to the header using any of the bg-* classes -->
               <div class="widget-user-header bg-info">
                 <h3 class="widget-user-username">{{ this.form.name}}</h3>
-                <h5 class="widget-user-desc">{{ this.form.role }}</h5>
               </div>
               <div class="widget-user-image">
                 <img class="img-circle elevation-3" src="../../../public/img/user.png" alt="User Avatar">
@@ -33,8 +32,8 @@
                   <!-- /.col -->
                   <div class="col-sm-4">
                     <div class="description-block">
-                      <h5 class="description-header">Password</h5>
-                      <span class="description-text">{{ this.form.password }}</span>
+                      <h5 class="description-header">Role</h5>
+                      <span class="description-text">{{ this.form.role }}</span>
                     </div>
                     <!-- /.description-block -->
                   </div>
@@ -83,7 +82,7 @@
                                 <div class="form-group">
                                     <label for="photo"  class="col-sm-2 control-label">Profile Photo</label>
                                     <div class="col-sm-12">
-                                        <input type="file" name="photo" class="form-input">
+                                        <input type="file" @change="updatePhoto" name="photo" class="form-input">
                                     </div>
 
                                 </div>
@@ -141,6 +140,17 @@
               //this.form.password = CryptoJS.AES.decrypt(txt, CryptoJS.enc.Utf8.parse(this.form.password));
               this.form.fill(data);
             });
+          },
+
+          updatePhoto(event) {
+            let file = event.target.files[0];
+            let reader = new FileReader();
+            reader.onloadend = (file) => {
+              this.form.photo = reader.result;
+              console.log(this.form.photo);
+              
+            }
+            reader.readAsDataURL(file);
           }
         },
 
@@ -150,7 +160,6 @@
 
         created() {
           this.getData();
-          //setInterval(() => this.getData(), 3000);
         }
     }
 </script>

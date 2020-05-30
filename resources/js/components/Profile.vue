@@ -10,7 +10,7 @@
                 <h3 class="widget-user-username">{{ this.form.name}}</h3>
               </div>
               <div class="widget-user-image">
-                <img class="img-circle elevation-3" src="../../../public/img/user.png" alt="User Avatar">
+                <img class="img-circle elevation-3" src="../../../public/images/virus.png" alt="User Avatar">
               </div>
               <div class="card-footer">
                 <div class="row">
@@ -98,7 +98,7 @@
 
                                 <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-12">
-                                    <button  type="submit" class="btn btn-success">Update</button>
+                                    <button @click.prevent="UpdateProfile"  type="submit" class="btn btn-success">Update</button>
                                     </div>
                                 </div>
                                 </form>
@@ -131,35 +131,57 @@
                     photo : ''
                 })
             }
-        },
+      },
 
-        methods : {
+      methods : {
 
-          getData() {
+        getData() {
             axios.get('api/profile').then( ( {data} ) => {
               //this.form.password = CryptoJS.AES.decrypt(txt, CryptoJS.enc.Utf8.parse(this.form.password));
               this.form.fill(data);
             });
-          },
+        },
 
-          updatePhoto(event) {
+        updatePhoto(event) {
             let file = event.target.files[0];
             let reader = new FileReader();
             reader.onloadend = (file) => {
               this.form.photo = reader.result;
               console.log(this.form.photo);
-              
             }
             reader.readAsDataURL(file);
-          }
         },
 
-        mounted() {
-            console.log('Component mounted.')
-        },
+        UpdateProfile(){
+          this.$Progress.start();
+                this.form.put('api/profile/' + this.form.id)
+                    .then(
+                        () => {
+                            this.$Progress.start();
+                            Toast.fire({
+                            icon: 'success',
+                            title: 'User updated successfully'
+                            })
+                            this.$Progress.finish();
+                        }
+                    )
+                    .catch(
+                        () => {
+                            this.$Progress.start();
+                            this.$Progress.fail();
+                        }
+                    );
 
-        created() {
-          this.getData();
         }
+
+      },
+
+      mounted() {
+        console.log('Component mounted.')
+      },
+
+      created() {
+        this.getData();
+      }
     }
 </script>

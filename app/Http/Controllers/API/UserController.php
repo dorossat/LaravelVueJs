@@ -30,13 +30,6 @@ class UserController extends Controller
             'password' => Hash::make($request['password'])
         ]);
     }
-
-
-    public function profile()
-    {
-        return auth('api')->user();
-    }
-
     
     public function update(Request $request, $id){
         $user = User::findOrFail($id);

@@ -2176,6 +2176,25 @@ __webpack_require__.r(__webpack_exports__);
       };
 
       reader.readAsDataURL(file);
+    },
+    UpdateProfile: function UpdateProfile() {
+      var _this3 = this;
+
+      this.$Progress.start();
+      this.form.put('api/profile/' + this.form.id).then(function () {
+        _this3.$Progress.start();
+
+        Toast.fire({
+          icon: 'success',
+          title: 'User updated successfully'
+        });
+
+        _this3.$Progress.finish();
+      })["catch"](function () {
+        _this3.$Progress.start();
+
+        _this3.$Progress.fail();
+      });
     }
   },
   mounted: function mounted() {
@@ -65141,7 +65160,28 @@ var render = function() {
                           )
                         ]),
                         _vm._v(" "),
-                        _vm._m(3)
+                        _c("div", { staticClass: "form-group" }, [
+                          _c(
+                            "div",
+                            { staticClass: "col-sm-offset-2 col-sm-12" },
+                            [
+                              _c(
+                                "button",
+                                {
+                                  staticClass: "btn btn-success",
+                                  attrs: { type: "submit" },
+                                  on: {
+                                    click: function($event) {
+                                      $event.preventDefault()
+                                      return _vm.UpdateProfile($event)
+                                    }
+                                  }
+                                },
+                                [_vm._v("Update")]
+                              )
+                            ]
+                          )
+                        ])
                       ])
                     ]
                   )
@@ -65163,7 +65203,7 @@ var staticRenderFns = [
       _c("img", {
         staticClass: "img-circle elevation-3",
         attrs: {
-          src: __webpack_require__(/*! ../../../public/img/user.png */ "./public/img/user.png"),
+          src: __webpack_require__(/*! ../../../public/images/virus.png */ "./public/images/virus.png"),
           alt: "User Avatar"
         }
       })
@@ -65206,20 +65246,6 @@ var staticRenderFns = [
     return _c("div", { staticClass: "tab-pane", attrs: { id: "activity" } }, [
       _c("h3", { staticClass: "text-center" }, [
         _vm._v("Display User Activity")
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group" }, [
-      _c("div", { staticClass: "col-sm-offset-2 col-sm-12" }, [
-        _c(
-          "button",
-          { staticClass: "btn btn-success", attrs: { type: "submit" } },
-          [_vm._v("Update")]
-        )
       ])
     ])
   }
@@ -82113,14 +82139,14 @@ module.exports = function(module) {
 
 /***/ }),
 
-/***/ "./public/img/user.png":
-/*!*****************************!*\
-  !*** ./public/img/user.png ***!
-  \*****************************/
+/***/ "./public/images/virus.png":
+/*!*********************************!*\
+  !*** ./public/images/virus.png ***!
+  \*********************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "/images/user.png?9beb29b4370fb1723a4983255ff88d0c";
+module.exports = "/images/virus.png?a886be434b02b187dc9bd4eae8499c83";
 
 /***/ }),
 

@@ -10,30 +10,18 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    public function __construct()
-    {
+    public function __construct(){
         $this->middleware('auth:api');
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
+   
+    public function index(){
         $user = new User();
         return $user::all();
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(UserRequest $request)
-    {
+   
+    public function store(UserRequest $request){
        
         return User::create([
             'name'     => $request['name'],
@@ -43,26 +31,14 @@ class UserController extends Controller
         ]);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+
+    public function profile()
     {
-        //
+        return auth('api')->user();
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
+    
+    public function update(Request $request, $id){
         $user = User::findOrFail($id);
 
         $this->validate($request, [
@@ -76,15 +52,10 @@ class UserController extends Controller
         $user->update($request->all());
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
+    
+    public function destroy($id){
         User::destroy([$id]);
         
     }
+
 }

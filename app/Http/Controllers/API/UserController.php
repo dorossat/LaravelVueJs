@@ -51,6 +51,7 @@ class UserController extends Controller
 
     
     public function destroy($id){
+        $this->authorize('isAdmin');
         User::destroy([$id]);
         
     }

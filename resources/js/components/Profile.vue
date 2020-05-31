@@ -137,19 +137,30 @@
 
         getData() {
             axios.get('api/profile').then( ( {data} ) => {
-              //this.form.password = CryptoJS.AES.decrypt(txt, CryptoJS.enc.Utf8.parse(this.form.password));
               this.form.fill(data);
             });
         },
 
         updatePhoto(event) {
             let file = event.target.files[0];
+            console.log(file);
             let reader = new FileReader();
-            reader.onloadend = (file) => {
-              this.form.photo = reader.result;
-              console.log(this.form.photo);
+            // Check file size
+            if(file.size <= 2097152){ // 2MB
+              reader.onloadend = (file) => {
+                this.form.photo = reader.result;
+                //console.log(this.form.photo);
+              }
+              reader.readAsDataURL(file);
             }
-            reader.readAsDataURL(file);
+            else{
+              Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'You are updating a large file !'
+              })
+            }
+            
         },
 
         UpdateProfile(){

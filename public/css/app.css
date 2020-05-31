@@ -31219,16 +31219,12 @@ a.text-muted:hover {
   color: #ffffff;
 }@charset "UTF-8";
 
-.text-blue {
-  color: #3490dc;
-}
-
-.text-red {
-  color: #e3342f;
-}
-
-.text-green {
+.green-icon {
   color: #38c172;
+}
+
+.red-icon {
+  color: #e3342f;
 }
 
 /*!

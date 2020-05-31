@@ -25,7 +25,7 @@ class AddImageToUsersTables extends Migration
      */
     public function down()
     {
-        Schema::table('users_tables', function (Blueprint $table) {
+        Schema::table('users', function (Blueprint $table) {
             $table->dropColumn(['photo']);
         });
     }

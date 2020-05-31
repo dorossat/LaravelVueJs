@@ -2160,7 +2160,6 @@ __webpack_require__.r(__webpack_exports__);
       axios.get('api/profile').then(function (_ref) {
         var data = _ref.data;
 
-        //this.form.password = CryptoJS.AES.decrypt(txt, CryptoJS.enc.Utf8.parse(this.form.password));
         _this.form.fill(data);
       });
     },
@@ -2168,14 +2167,23 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       var file = event.target.files[0];
-      var reader = new FileReader();
+      console.log(file);
+      var reader = new FileReader(); // Check file size
 
-      reader.onloadend = function (file) {
-        _this2.form.photo = reader.result;
-        console.log(_this2.form.photo);
-      };
+      if (file.size <= 2097152) {
+        // 2MB
+        reader.onloadend = function (file) {
+          _this2.form.photo = reader.result; //console.log(this.form.photo);
+        };
 
-      reader.readAsDataURL(file);
+        reader.readAsDataURL(file);
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'You are updating a large file !'
+        });
+      }
     },
     UpdateProfile: function UpdateProfile() {
       var _this3 = this;

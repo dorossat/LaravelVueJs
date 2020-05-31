@@ -21,32 +21,24 @@ class ProfileController extends Controller
     
     public function update(Request $request, $id){
         $user = User::findOrFail($id);
-        //$user = auth('api')->user();
         $currentPhoto = $user->photo;
-
-
         if($request->photo != $currentPhoto){
             $name = time().'.' . explode('/', explode(':', substr($request->photo, 0, strpos($request->photo, ';')))[1])[1];
-
-            Image::make($request->photo)->save(public_path('images/').$name);
-            $request->merge(['photo' => $name]);
-            $request->photo = $name;
-
+            Image::make($request->photo)->save(public_path('images/profile/').$name);
+            $user->photo = $name; 
+            //$request->merge(['photo' => $name]); // update the name
             $userPhoto = public_path('images/').$currentPhoto;
             if(file_exists($userPhoto)){
                 @unlink($userPhoto);
             }
-
         }
-
 
         if(!empty($request->password)){
             $request->merge(['password' => Hash::make($request['password'])]);
         }
 
-
         $user->update($request->all());
-        return ['message' => $request->photo];
+        return ['message' => 'Success ! '];
     }
 
     public function destroy($id){}

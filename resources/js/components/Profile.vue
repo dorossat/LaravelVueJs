@@ -10,7 +10,7 @@
                 <h3 class="widget-user-username">{{ this.form.name}}</h3>
               </div>
               <div class="widget-user-image">
-                <img class="img-circle elevation-3" src="../../../public/images/virus.png" alt="User Avatar">
+                <img class="img-circle elevation-3" :src="getPhoto()" alt="User Avatar">
               </div>
               <div class="card-footer">
                 <div class="row">
@@ -183,6 +183,10 @@
                         }
                     );
 
+        },
+
+        getPhoto() {
+          return "images/profile/"+this.form.photo;
         }
 
       },

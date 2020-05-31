@@ -2203,6 +2203,9 @@ __webpack_require__.r(__webpack_exports__);
 
         _this3.$Progress.fail();
       });
+    },
+    getPhoto: function getPhoto() {
+      return "images/profile/" + this.form.photo;
     }
   },
   mounted: function mounted() {
@@ -64925,7 +64928,12 @@ var render = function() {
               ])
             ]),
             _vm._v(" "),
-            _vm._m(0),
+            _c("div", { staticClass: "widget-user-image" }, [
+              _c("img", {
+                staticClass: "img-circle elevation-3",
+                attrs: { src: _vm.getPhoto(), alt: "User Avatar" }
+              })
+            ]),
             _vm._v(" "),
             _c("div", { staticClass: "card-footer" }, [
               _c("div", { staticClass: "row" }, [
@@ -64970,11 +64978,11 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "col-md-12" }, [
             _c("div", { staticClass: "card" }, [
-              _vm._m(1),
+              _vm._m(0),
               _vm._v(" "),
               _c("div", { staticClass: "card-body" }, [
                 _c("div", { staticClass: "tab-content" }, [
-                  _vm._m(2),
+                  _vm._m(1),
                   _vm._v(" "),
                   _c(
                     "div",
@@ -65203,20 +65211,6 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "widget-user-image" }, [
-      _c("img", {
-        staticClass: "img-circle elevation-3",
-        attrs: {
-          src: __webpack_require__(/*! ../../../public/images/virus.png */ "./public/images/virus.png"),
-          alt: "User Avatar"
-        }
-      })
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -82144,17 +82138,6 @@ module.exports = function(module) {
 	return module;
 };
 
-
-/***/ }),
-
-/***/ "./public/images/virus.png":
-/*!*********************************!*\
-  !*** ./public/images/virus.png ***!
-  \*********************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "/images/virus.png?a886be434b02b187dc9bd4eae8499c83";
 
 /***/ }),
 

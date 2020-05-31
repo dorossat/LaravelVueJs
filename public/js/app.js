@@ -2166,8 +2166,8 @@ __webpack_require__.r(__webpack_exports__);
     updatePhoto: function updatePhoto(event) {
       var _this2 = this;
 
-      var file = event.target.files[0];
-      console.log(file);
+      var file = event.target.files[0]; //console.log(file);
+
       var reader = new FileReader(); // Check file size
 
       if (file.size <= 2097152) {
@@ -2205,7 +2205,8 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     getPhoto: function getPhoto() {
-      return "images/profile/" + this.form.photo;
+      var prefix = this.form.photo.match(/\//) ? '' : '/images/profile/';
+      return prefix + this.form.photo;
     }
   },
   mounted: function mounted() {
@@ -65128,7 +65129,7 @@ var render = function() {
                               staticClass: "col-sm-12 control-label",
                               attrs: { for: "password" }
                             },
-                            [_vm._v("Passport (leave empty if not changing)")]
+                            [_vm._v("Password (leave empty if not changing)")]
                           ),
                           _vm._v(" "),
                           _c(
@@ -65151,7 +65152,7 @@ var render = function() {
                                 attrs: {
                                   type: "password",
                                   id: "password",
-                                  placeholder: "Passport"
+                                  placeholder: "Password"
                                 },
                                 domProps: { value: _vm.form.password },
                                 on: {
@@ -82215,7 +82216,7 @@ var Toast = sweetalert2__WEBPACK_IMPORTED_MODULE_4___default.a.mixin({
   toast: true,
   position: 'top-end',
   showConfirmButton: false,
-  timer: 3000,
+  timer: 1000,
   timerProgressBar: true,
   onOpen: function onOpen(toast) {
     toast.addEventListener('mouseenter', sweetalert2__WEBPACK_IMPORTED_MODULE_4___default.a.stopTimer);

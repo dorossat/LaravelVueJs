@@ -75,13 +75,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </router-link>
           </li>
 
+          @can('isAdmin')
           <li class="nav-item">
             <router-link to="/developpers" class="nav-link">
               <i class="nav-icon fa fa-user-tie text-info"></i>
               <p> Developpers </p>
             </router-link>
           </li>
-
+          @endcan
+          
           <li class="nav-item">
             <router-link to="/profile" class="nav-link">
               <i class="nav-icon fas fa-user text-warning"></i>

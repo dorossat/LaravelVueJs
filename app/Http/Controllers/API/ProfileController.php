@@ -27,7 +27,7 @@ class ProfileController extends Controller
             Image::make($request->photo)->save(public_path('images/profile/').$name);
             $user->photo = $name; 
             //$request->merge(['photo' => $name]); // update the name
-            $userPhoto = public_path('images/').$currentPhoto;
+            $userPhoto = public_path('images/profile/').$currentPhoto;
             if(file_exists($userPhoto)){
                 @unlink($userPhoto);
             }

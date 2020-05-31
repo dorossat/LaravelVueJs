@@ -40,9 +40,13 @@ class UserController extends Controller
             'role'     => 'required',
             'password' => 'sometimes|string|min:8'
         ]);
+        $user->password = Hash::make($request['password']);
         
 
-        $user->update($request->all());
+        $user->update(['name'     => $request['name'],
+        'email'    => $request['email'],
+        'role'     => $request['role'],
+        'password' => Hash::make($request['password'])]);
     }
 
     

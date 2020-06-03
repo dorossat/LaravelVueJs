@@ -55,10 +55,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="{{ asset('/images/virus.png')}}" class="img-circle elevation-2" alt="User Image">
+          <img src="{{ asset('images/profile/'.Auth::user()->photo)}}" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
           <a href="#" class="d-block">{{ Auth::user()->name }}</a>
+          <p class="d-block"> {{ Auth::user()->role }} </p>
         </div>
       </div>
 
@@ -75,19 +76,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </router-link>
           </li>
 
+          <li class="nav-item">
+            <router-link to="/profile" class="nav-link">
+              <i class="nav-icon fas fa-user text-warning"></i>
+              <p> Profile </p>
+            </router-link>
+          </li>
+
           @can('isAdmin')
           <li class="nav-item">
             <router-link to="/developpers" class="nav-link">
               <i class="nav-icon fa fa-user-tie text-info"></i>
               <p> Developpers </p>
-            </router-link>
-          </li>
-          @endcan
-          
-          <li class="nav-item">
-            <router-link to="/profile" class="nav-link">
-              <i class="nav-icon fas fa-user text-warning"></i>
-              <p> Profile </p>
             </router-link>
           </li>
 
@@ -106,17 +106,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <p>Users</p>
                 </router-link>
               </li>
-            <!--
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="fas fa-newspaper nav-icon"></i>
-                  <p>Posts</p>
-                </a>
-              </li>
-            !-->
-
             </ul>
           </li>
+          @endcan
 
           <li class="nav-item">
             <a class="nav-link" href="{{ route('logout') }}"

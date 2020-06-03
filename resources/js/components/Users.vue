@@ -4,7 +4,7 @@
             <div class="col-md-12 mt-5">
                 <div class="card">
                     
-                    <div class="card-header text-info text-bold">
+                    <div class="card-header text-dark text-bold">
                         <i class="nav-icon fas fa-user"></i>
                         Users Component
 
@@ -20,7 +20,7 @@
                     <div class="card-body">
                         <table class="table table-hover table-fixed">
                             <thead>
-                                <tr>
+                                <tr class="text-primary">
                                     <th scope="col">ID</th>
                                     <th scope="col">Name</th>
                                     <th scope="col">Email</th>
@@ -38,7 +38,7 @@
                                     <td>{{ user.role | upText }}</td> <!-- upText is a filter created in app.js -->
                                     <td>{{ user.created_at | myDate }}</td>
                                     <td>
-                                        <a href="#" @click="UpdateUser(user)">Edit
+                                        <a style="color:#9F8D0F;" href="#" @click="UpdateUser(user)">Edit
                                             <i class="fa fa-edit"></i>
                                         </a>
                                         <a style="color:red;" href="#" @click="deleteUser(user.id)"> / Delete
@@ -127,7 +127,8 @@
                     name     : '' ,
                     email    : '' ,
                     role : '' ,
-                    password : ''
+                    password : '' ,
+                    photo : ''
                 })
             }
         },
@@ -234,7 +235,7 @@
 
         created() {
             this.loadUser();
-            setInterval(() => this.loadUser(), 3000);
+            setInterval(() => this.loadUser(), 2000);
         }
     }
 </script>

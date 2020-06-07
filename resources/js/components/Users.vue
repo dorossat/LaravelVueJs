@@ -3,7 +3,6 @@
         <div class="row justify-content-center">
             <div class="col-md-12 mt-5">
                 <div class="card">
-                    
                     <div class="card-header text-dark text-bold">
                         <i class="nav-icon fas fa-user"></i>
                         Users Component
@@ -31,7 +30,7 @@
                             </thead>
 
                             <tbody>
-                                <tr v-for="user in users" :key="user.id">
+                                <tr v-for="user in users.data" :key="user.id">
                                     <th scope="row">{{ user.id}}</th>
                                     <td>{{ user.name }}</td>
                                     <td>{{ user.email}}</td>
@@ -48,6 +47,9 @@
                                 </tr>
                             </tbody>
                         </table>
+                    </div>
+                    <div class="card-footer">
+                        <pagination :data="users" @pagination-change-page="getResults"></pagination>
                     </div>
                 </div>
             </div>
@@ -138,6 +140,7 @@
             // Display users
             loadUser() {
                 axios.get("api/user").then (( {data} ) => (this.users = data));
+                //console.log(this.users.current_page); 
             },
 
             // Add new user
@@ -230,12 +233,22 @@
                 this.form.fill(user);
                 this.form.clear(); // clear errors
                 $("#UserModal").modal("show")
-            }
-        },
+            },
 
+            // Pagination
+            getResults(page=1) {
+			    axios.get('api/user?page=' + page)
+				.then(response => {
+                    this.users = response.data;   
+				});
+		    }
+        },
+        mounted(){
+            this.getResults(this.users.current_page);
+        },
         created() {
-            this.loadUser();
-            setInterval(() => this.loadUser(), 2000);
+            //this.getResults(this.users.current_page);
+            setInterval(() => this.getResults(this.users.current_page), 4000);
         }
     }
 </script>

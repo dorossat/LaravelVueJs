@@ -29,29 +29,21 @@ Vue.component('passport-authorized-clients',require('./components/passport/Autho
 Vue.component('passport-personal-access-tokens',require('./components/passport/PersonalAccessTokens.vue').default);
 Vue.component('not-found', require('./components/NotFound.vue').default);
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
-
-
+Vue.component('pagination', require('laravel-vue-pagination'));
 
 
 // Filters
-Vue.filter('upText', function(text){ // the name of the filter is : upText
-  return text.toUpperCase();
-});
-
-Vue.filter('myDate', function(date){
-  return moment(date).format("MMM Do YY");
-});
+Vue.filter('upText', function(text){ return text.toUpperCase();}); // the name of the filter is : upText
+Vue.filter('myDate', function(date){ return moment(date).format("MMM Do YY");});
 
 
 // Routes
 let routes = [
-
     { path: '/dashboard', component: require('./components/Dashboard.vue').default },
     { path: '/profile', component: require('./components/Profile.vue').default },
     { path: '/users', component: require('./components/Users.vue').default },
-    { path: '/developpers', component: require('./components/Developpers.vue').default }
-    
-  ]
+    { path: '/developpers', component: require('./components/Developpers.vue').default } 
+]
 
 
 // Router
@@ -59,8 +51,8 @@ const router = new VueRouter({
   mode : 'history',
   linkActiveClass: 'active',
   routes // raccourci pour `routes: routes`
-
   })
+
 
 //Toast for SweetAlert2
 const Toast = Swal.mixin({
@@ -74,12 +66,7 @@ const Toast = Swal.mixin({
     toast.addEventListener('mouseleave', Swal.resumeTimer)
     }
   })
-
   window.Toast = Toast;
-
-
-
-
 
 const app = new Vue({
     el: '#app',

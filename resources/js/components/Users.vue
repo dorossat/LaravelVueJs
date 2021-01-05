@@ -112,9 +112,6 @@
             </div>
         </div>
     </div>
-
-
-
 </div>
 </template>
 
@@ -248,7 +245,7 @@
         },
         created() {
             //this.getResults(this.users.current_page);
-            setInterval(() => this.getResults(this.users.current_page), 4000);
+            setInterval(() => this.getResults(this.users.current_page),4000);
         }
     }
 </script>

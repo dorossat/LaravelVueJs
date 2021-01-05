@@ -16,6 +16,10 @@ class DatabaseSeeder extends Seeder
             $this->command->info("Database was refreshed"); 
          }
          
-        $this->call(UsersTableSeed::class);
+        $this->call(
+            [
+                UsersTableSeed::class,
+                ActivitySeeder::class
+            ]);
     }
 }

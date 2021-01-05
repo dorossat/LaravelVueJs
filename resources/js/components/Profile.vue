@@ -56,8 +56,18 @@
                     <div class="card-body">
                         <div class="tab-content">
                             <!-- Activity Tab -->
-                            <div class="tab-pane" id="activity">
-                                <h3 class="text-center">Display User Activity</h3>
+                            <div v-if="this.hasActivity" class="tab-pane" id="activity">
+                                <div class="card">
+                                <div v-for="act in activities" :key="act.id" class="card-body">
+                                  <h5 class="card-title">{{ act.name }}</h5>
+                                  <p class="card-text">{{ act.description }}</p>
+                                  <button @click="deleteActivity(act.id)" class="btn btn-danger">Delete activity</button>
+                                  <hr>
+                                </div>
+                              </div>
+                            </div>
+                            <div v-else class="tab-pane" id="activity">
+                                <h3 class="text-center text-danger">No activities !</h3>
                             </div>
                             <!-- Setting Tab -->
                             <div class="tab-pane active show" id="settings">
@@ -122,6 +132,9 @@
     export default {
       data() {
             return {
+                hasActivity : false,
+                user_id : '',
+                activities : {},
                 form : new Form({
                     id : '',
                     name     : '' ,
@@ -131,14 +144,54 @@
                     photo : ''
                 })
             }
+
       },
 
       methods : {
 
         getData() {
-            axios.get('api/profile').then( ( {data} ) => {
+            axios.get('api/profile/' + this.form.id).then( ( {data} ) => {
               this.form.fill(data);
+              this.user_id = data.id; // save user_id to display actvities          
             });
+        },
+
+        getActivity(){
+          axios.get('api/activity/' + this.user_id).then( ( {data} ) => {
+              if(data.length > 0){
+                this.activities = data;
+                this.hasActivity = true;
+              }
+              else
+                this.hasActivity = false;                          
+            });
+        },
+
+        deleteActivity(id){
+          Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                    }).then((result) => {
+                        // Send request to the server
+                    if(result.value){
+                            axios.delete('api/activity/' + id)
+                        .then( () => {
+                            Swal.fire(
+                                'Deleted!',
+                                'Your file has been deleted.',
+                                'success'
+                            )
+                        })
+                        .catch( () => {
+                                Swal('Failed', 'Something was wrong !', 'warning')
+                        })
+                    }
+                    })
         },
 
         updatePhoto(event) {
@@ -188,16 +241,15 @@
         getPhoto() {
           let prefix = (this.form.photo.match(/\//) ? '' : '/images/profile/');
           return prefix + this.form.photo;
-        }
-
+        },
       },
 
       mounted() {
-        console.log('Component mounted.')
+        setInterval(() => this.getActivity(), 7000);
       },
 
       created() {
-        this.getData();
+        this.getData();        
       }
     }
 </script>

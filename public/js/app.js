@@ -2175,9 +2175,22 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      hasActivity: false,
+      user_id: '',
+      activities: {},
       form: new Form({
         id: '',
         name: '',
@@ -2192,14 +2205,48 @@ __webpack_require__.r(__webpack_exports__);
     getData: function getData() {
       var _this = this;
 
-      axios.get('api/profile').then(function (_ref) {
+      axios.get('api/profile/' + this.form.id).then(function (_ref) {
         var data = _ref.data;
 
         _this.form.fill(data);
+
+        _this.user_id = data.id; // save user_id to display actvities          
+      });
+    },
+    getActivity: function getActivity() {
+      var _this2 = this;
+
+      axios.get('api/activity/' + this.user_id).then(function (_ref2) {
+        var data = _ref2.data;
+
+        if (data.length > 0) {
+          _this2.activities = data;
+          _this2.hasActivity = true;
+        } else _this2.hasActivity = false;
+      });
+    },
+    deleteActivity: function deleteActivity(id) {
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then(function (result) {
+        // Send request to the server
+        if (result.value) {
+          axios["delete"]('api/activity/' + id).then(function () {
+            Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
+          })["catch"](function () {
+            Swal('Failed', 'Something was wrong !', 'warning');
+          });
+        }
       });
     },
     updatePhoto: function updatePhoto(event) {
-      var _this2 = this;
+      var _this3 = this;
 
       var file = event.target.files[0]; //console.log(file);
 
@@ -2208,7 +2255,7 @@ __webpack_require__.r(__webpack_exports__);
       if (file.size <= 2097152) {
         // 2MB
         reader.onloadend = function (file) {
-          _this2.form.photo = reader.result; //console.log(this.form.photo);
+          _this3.form.photo = reader.result; //console.log(this.form.photo);
         };
 
         reader.readAsDataURL(file);
@@ -2221,22 +2268,22 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     UpdateProfile: function UpdateProfile() {
-      var _this3 = this;
+      var _this4 = this;
 
       this.$Progress.start();
       this.form.put('api/profile/' + this.form.id).then(function () {
-        _this3.$Progress.start();
+        _this4.$Progress.start();
 
         Toast.fire({
           icon: 'success',
           title: 'User updated successfully'
         });
 
-        _this3.$Progress.finish();
+        _this4.$Progress.finish();
       })["catch"](function () {
-        _this3.$Progress.start();
+        _this4.$Progress.start();
 
-        _this3.$Progress.fail();
+        _this4.$Progress.fail();
       });
     },
     getPhoto: function getPhoto() {
@@ -2245,7 +2292,11 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   mounted: function mounted() {
-    console.log('Component mounted.');
+    var _this5 = this;
+
+    setInterval(function () {
+      return _this5.getActivity();
+    }, 7000);
   },
   created: function created() {
     this.getData();
@@ -2263,9 +2314,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
-//
-//
 //
 //
 //
@@ -65887,7 +65935,57 @@ var render = function() {
               _vm._v(" "),
               _c("div", { staticClass: "card-body" }, [
                 _c("div", { staticClass: "tab-content" }, [
-                  _vm._m(1),
+                  this.hasActivity
+                    ? _c(
+                        "div",
+                        { staticClass: "tab-pane", attrs: { id: "activity" } },
+                        [
+                          _c(
+                            "div",
+                            { staticClass: "card" },
+                            _vm._l(_vm.activities, function(act) {
+                              return _c(
+                                "div",
+                                { key: act.id, staticClass: "card-body" },
+                                [
+                                  _c("h5", { staticClass: "card-title" }, [
+                                    _vm._v(_vm._s(act.name))
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("p", { staticClass: "card-text" }, [
+                                    _vm._v(_vm._s(act.description))
+                                  ]),
+                                  _vm._v(" "),
+                                  _c(
+                                    "button",
+                                    {
+                                      staticClass: "btn btn-danger",
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.deleteActivity(act.id)
+                                        }
+                                      }
+                                    },
+                                    [_vm._v("Delete activity")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("hr")
+                                ]
+                              )
+                            }),
+                            0
+                          )
+                        ]
+                      )
+                    : _c(
+                        "div",
+                        { staticClass: "tab-pane", attrs: { id: "activity" } },
+                        [
+                          _c("h3", { staticClass: "text-center text-danger" }, [
+                            _vm._v("No activities !")
+                          ])
+                        ]
+                      ),
                   _vm._v(" "),
                   _c(
                     "div",
@@ -66143,16 +66241,6 @@ var staticRenderFns = [
             [_vm._v("Settings")]
           )
         ])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "tab-pane", attrs: { id: "activity" } }, [
-      _c("h3", { staticClass: "text-center" }, [
-        _vm._v("Display User Activity")
       ])
     ])
   }
